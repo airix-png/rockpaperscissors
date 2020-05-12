@@ -1,0 +1,80 @@
+<html> 
+<head>
+    <meta chaset="UTF-8">
+</head>
+<body>
+    <script>
+        let words = ['Rock' , 'Paper', 'Scissors'];
+        function computerPlay() {
+            return words[Math.floor(Math.random() * words.length)]
+        }
+
+        function playerSelection(){
+            let userselection = prompt("Rock, Paper, Scissors?")
+            let finalanswer = userselection.charAt(0).toUpperCase() + userselection.slice(1).toLowerCase();
+        if (words.indexOf(finalanswer)=== -1) {playerSelection()}
+        else return finalanswer 
+        }
+
+        let i=0
+        let win = 0
+        let lose = 0 
+        let rounds = 0
+
+        function playRound(y, x) {
+            if (y === "Rock" && x === "Scissors") {win++
+                console.log("You win! Rock beats Scissors!");
+                return "PLAYER Wins. " + "The score is " + win + " to " + lose + ".";
+                }
+            else if (y === "Paper" && x === "Rock") {win++
+                console.log("You win! Paper beats Rock!")
+                return "PLAYER Wins. " + "The score is " + win + " to " + lose + ".";
+                }
+            else if (y === "Scissors" && x === "Paper") {win++ 
+                console.log("You win! Scissors beats Paper!")
+                return "PLAYER Wins. " + "The score is " + win + " to " + lose + ".";
+                }
+            else if (y === "Rock" && x === "Paper") {lose++
+                console.log("CPU chooses Paper. You lose! Paper beats Rock!")
+                return "CPU Wins. " + "The score is " + win + " to " + lose + ".";
+                }
+            else if (y === "Paper" && x === "Scissors") {lose++
+                console.log("CPU chooses Scissors. You lose! Scissors beats Paper!")
+                return "CPU Wins. " + "The score is " + win + " to " + lose + ".";
+                }
+            else if (y === "Scissors" && x === "Rock") {lose++
+                console.log("CPU chooses Rock. You lose! Rock beats Scissors!")
+                return "CPU Wins. " + "The score is " + win + " to " + lose + ".";
+                }
+            else{i-- 
+            rounds--
+            console.log("Draw") 
+            }
+            
+           }
+
+function game () {
+        for (; i<6; i++){ 
+            if (rounds == 5 && win > lose) {console.log ("Game Over! You win!")}
+            else if (rounds == 5 && lose > win) {console.log ("Game Over! You lose! Try again.")}
+            let x = computerPlay()
+            let y = playerSelection()
+            console.log(playRound(y, x))
+            rounds++
+        }
+
+}
+
+game()
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>

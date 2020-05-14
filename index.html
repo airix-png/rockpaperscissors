@@ -1,79 +1,269 @@
 <html> 
+<style>
+    html {background-color: F9E5BC; 
+    font-family:'Courier New', Courier, monospace
+    }
+
+    header {position: relative;
+        font-size: 20px;
+        font-style: bold;
+        text-align: center;
+        margin: auto;
+        top: 275px;
+    }
+
+
+    .choices {position: fixed;
+        display: flex;
+        top:40%;
+        margin-top:28px;
+        left: 50%;
+        margin-left:-83px;
+    }
+
+    .scoreboard {font-style: BOLD;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        top: 380px;
+        text-align: center;
+        justify-content: center;
+    }
+    
+    .Rock {
+        margin: 0px 3px 0px 3px;
+    }
+    .Paper {
+        margin: 0px 3px 0px 3px;
+    }
+
+    .Scissors{
+        margin: 0px 3px 0px 3px;
+    }
+
+    .extra {border: 4px solid black;
+        width: 53vw;
+    height: 53vw;
+    background: transparent;
+    position: relative;
+    margin: auto;
+    bottom: 220px;
+    z-index: -1;
+
+    }
+
+
+</style>
 <head>
     <meta chaset="UTF-8">
 </head>
 <body>
+    <header>
+        <h2>>> ROCK PAPER SCISSORS &lt&lt
+        <br><br>Best out of 5! Good luck! </h2>
+        <p> <button class='Start'>Start Game</button></p>
+        <div class="option">
+        <p id="userOption"> ________________ </p>
+        <p id="computerOption"> </p>
+        <p id="thirdOption"> </p>
+        </div>
+    </header>
+    <div class="scoreboard">
+        SCOREBOARD 
+        <h2 id="userScore"> Player: 0 </h2>
+        <h2 id="computerScore"> CPU: 0 </h2>
+    </div>
+    <div class="choices">
+        <br>
+        <button class='Rock'>Rock</button>
+        <button class='Paper'>Paper</button>
+        <button class='Scissors'>Scissors</button>
+    </div> 
+    <div class="extra"></div>
+
     <script>
-        let words = ['Rock' , 'Paper', 'Scissors'];
-        function computerPlay() {
-            return words[Math.floor(Math.random() * words.length)]
-        }
-
-        function playerSelection(){
-            let userselection = prompt("Rock, Paper, Scissors?")
-            let finalanswer = userselection.charAt(0).toUpperCase() + userselection.slice(1).toLowerCase();
-        if (words.indexOf(finalanswer)=== -1) {playerSelection()}
-        else return finalanswer 
-        }
-
-        let i=0
+        // game variables 
+        const words = ['Rock' , 'Paper', 'Scissors'];
         let win = 0
         let lose = 0 
         let rounds = 0
 
-        function playRound(y, x) {
-            if (y === "Rock" && x === "Scissors") {win++
-                console.log("You win! Rock beats Scissors!");
-                return "PLAYER Wins. " + "The score is " + win + " to " + lose + ".";
-                }
-            else if (y === "Paper" && x === "Rock") {win++
-                console.log("You win! Paper beats Rock!")
-                return "PLAYER Wins. " + "The score is " + win + " to " + lose + ".";
-                }
-            else if (y === "Scissors" && x === "Paper") {win++ 
-                console.log("You win! Scissors beats Paper!")
-                return "PLAYER Wins. " + "The score is " + win + " to " + lose + ".";
-                }
-            else if (y === "Rock" && x === "Paper") {lose++
-                console.log("CPU chooses Paper. You lose! Paper beats Rock!")
-                return "CPU Wins. " + "The score is " + win + " to " + lose + ".";
-                }
-            else if (y === "Paper" && x === "Scissors") {lose++
-                console.log("CPU chooses Scissors. You lose! Scissors beats Paper!")
-                return "CPU Wins. " + "The score is " + win + " to " + lose + ".";
-                }
-            else if (y === "Scissors" && x === "Rock") {lose++
-                console.log("CPU chooses Rock. You lose! Rock beats Scissors!")
-                return "CPU Wins. " + "The score is " + win + " to " + lose + ".";
-                }
-            else{i-- 
-            rounds--
-            console.log("Draw") 
-            }
-            
-           }
-
-function game () {
-        for (; i<6; i++){ 
-            if (rounds == 5 && win > lose) {console.log ("Game Over! You win!")}
-            else if (rounds == 5 && lose > win) {console.log ("Game Over! You lose! Try again.")}
-            let x = computerPlay()
-            let y = playerSelection()
-            console.log(playRound(y, x))
-            rounds++
+        // computer random word function 
+        function computerPlay() {
+            return words[Math.floor(Math.random() * words.length)];
         }
 
-}
+        //displaying score and results
+        const scorebox = document.createElement('div');
+        const score = document.createElement('p');
 
-game()
+        let yourScore = document.querySelector("#userScore");
+        let theirScore = document.querySelector("#computerScore");
+        let yourOption = document.querySelector("#userOption");
+        let theirOption = document.querySelector("#computerOption");
+        let thirdOption = document.querySelector("#drawOption");
+
+        // click input to buttons for rock/paper/scissors to play game
+        const rock = document.querySelector('.Rock')
+        rock.addEventListener('click', function(){
+            if (rounds == 5 && win > lose) {
+                yourScore.textContent = "Game Over!";
+                theirScore.textContent = "You win! |" + win + " to " + lose + "| Replay?";
+                return;
+            }
+                else if (rounds == 5 && lose > win) {
+                    yourScore.textContent = "Game Over!";
+                    theirScore.textContent = "You lose! |" + lose + " to " + win + "| Replay?"
+                return;
+                }
+            let y = "Rock";
+            computerPlay();
+            let x = computerPlay();
+            if (y === x) {yourOption.textContent = "DRAW! Both picked Rock.";
+            theirOption.textContent = "Pick again :)";
+        }
+            else {
+            yourOption.textContent = "You picked " + y;
+            theirOption.textContent = "CPU picked " + x;
+            console.log(playRound(y, x));}
+        });
+           
+
+        const paper = document.querySelector('.Paper')
+        paper.addEventListener('click', function(){
+            if (rounds == 5 && win > lose) {
+                yourScore.textContent = "Game Over!";
+                theirScore.textContent = "You win! |" + win + " to " + lose + "| Replay?";
+                return;
+            }
+                else if (rounds == 5 && lose > win) {
+                    yourScore.textContent = "Game Over!";
+                    theirScore.textContent = "You lose! |" + lose + " to " + win + "| Replay?";
+                return;
+                }
+            let y = "Paper";
+            computerPlay();
+            let x = computerPlay();
+            if (y === x) {yourOption.textContent = "DRAW! Both picked Paper.";
+            theirOption.textContent = "Pick again :)";
+        }
+            else {
+            yourOption.textContent = "You picked " + y;
+            theirOption.textContent = "CPU picked " + x;
+            console.log(playRound(y, x));}
+        });
+        
+        const scissors = document.querySelector('.Scissors')
+        scissors.addEventListener('click', function(){
+            if (rounds == 5 && win > lose) {
+                yourScore.textContent = "Game Over!";
+                theirScore.textContent = "You win! " + win + " to " + lose + "| Replay?";
+                return;
+            }
+                else if (rounds == 5 && lose > win) {
+                    yourScore.textContent = "Game Over!";
+                    theirScore.textContent = "You lose! |" + lose + " to " + win + "| Replay?"
+                return;
+                }
+            let y = "Scissors";
+            computerPlay();
+            let x = computerPlay();
+            if (y === x) {yourOption.textContent = "DRAW! Both picked Scissors.";
+            theirOption.textContent = "Pick again :)";
+        }
+            else {
+            yourOption.textContent = "You picked " + y;
+            theirOption.textContent = "CPU picked " + x;
+            console.log(playRound(y, x));}
+        });
+
+        const start = document.querySelector('.Start')
+        start.addEventListener('click', function(){
+            rounds = 0; 
+            win = 0;
+            lose = 0;
+            yourOption.textContent = ">> Please pick an option below <<"
+            theirOption.textContent = "________________"
+        })
+
+        // playRound function (best out of 5)
+        function playRound(y, x) {
+            if (y === "Rock" && x === "Scissors") {
+                win++;
+                rounds++;
+                console.log("You win! Rock beats Scissors!");
+                yourScore.textContent = "Player : " + win;
+                theirScore.textContent = "CPU : " + lose;
+                return "PLAYER Wins. " + "The score is " + win + " to " + lose + ".";
+                }
+            else if (y === "Paper" && x === "Rock") {
+                win++;
+                rounds++;
+                console.log("You win! Paper beats Rock!")
+                yourScore.textContent = "Player : " + win;
+                theirScore.textContent = "CPU : " + lose;
+                return "PLAYER Wins. " + "The score is " + win + " to " + lose + ".";
+                }
+            else if (y === "Scissors" && x === "Paper") {
+                win++;
+                rounds++; 
+                console.log("You win! Scissors beats Paper!")
+                yourScore.textContent = "Player : " + win;
+                theirScore.textContent = "CPU : " + lose;
+                return "PLAYER Wins. " + "The score is " + win + " to " + lose + ".";
+                }
+            else if (y === "Rock" && x === "Paper") {
+                lose++;
+                rounds++;
+                console.log("CPU chooses Paper. You lose! Paper beats Rock!")
+                yourScore.textContent = "Player : " + win;
+                theirScore.textContent = "CPU : " + lose;
+                return "CPU Wins. " + "The score is " + win + " to " + lose + ".";
+                }
+            else if (y === "Paper" && x === "Scissors") {
+                lose++;
+                rounds++;
+                console.log("CPU chooses Scissors. You lose! Scissors beats Paper!")
+                yourScore.textContent = "Player : " + win;
+                theirScore.textContent = "CPU : " + lose;
+                return "CPU Wins. " + "The score is " + win + " to " + lose + ".";
+                }
+            else if (y === "Scissors" && x === "Rock") {
+                lose++;
+                rounds++; 
+                console.log("CPU chooses Rock. You lose! Rock beats Scissors!")
+                yourScore.textContent = "Player : " + win ;
+                theirScore.textContent = "CPU : " + lose;
+                return "CPU Wins. " + "The score is " + win + " to " + lose + ".";
+                }
+            else{
+            console.log("Draw")  }
+           }
+        
+        
+        
+        
+
+//function playerSelection(){
+//    let userselection = prompt("Rock, Paper, Scissors?")
+//            let finalanswer = userselection.charAt(0).toUpperCase() + userselection.slice(1).toLowerCase();
+//        if (words.indexOf(finalanswer)=== -1) {playerSelection()}
+//        else return finalanswer 
+//        }
 
 
 
+//  function game () {
+//        for (; i<6; i++){ 
+//            if (rounds == 5 && win > lose) {console.log ("Game Over! You win!")}
+//            else if (rounds == 5 && lose > win) {console.log ("Game Over! You lose! Try again.")}
+//            )
+//            console.log(playRound(y, x)
 
+//           rounds++}}
 
-
-
-
+// i--            rounds--
 
     </script>
 </body>
